@@ -121,6 +121,12 @@ function getOrCreateRoom(roomId: string): RoomData {
 // App & Server
 const app = express();
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  next();
+});
 app.use(express.json({ limit: '25mb' }));
 
 // Health check
@@ -443,6 +449,7 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 const HOST = '0.0.0.0';
 
 server.listen(PORT, HOST, () => {
-  console.log(`🚀 SDS Geox Meetings server running on http://${HOST}:${PORT}`);
-  console.log(`📡 WebSocket server listening on ws://${HOST}:${PORT}/ws`);
+  console.log(`🚀 SDS Geox Meetings server running on port ${PORT}`);
+  console.log(`👉 Open via the Live Preview window or navigate to: http://localhost:${PORT}`);
+  console.log(`📡 WebSocket server listening on ws://localhost:${PORT}/ws`);
 });
